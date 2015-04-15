@@ -2,7 +2,7 @@ var DomUtils = require("..");
 var fixture = require("./fixture");
 var assert = require("assert");
 
-var makeDom = require("./utils").makeDom;
+var makeDoc = require("./utils").makeDoc;
 var path = require('path');
 var fs = require('fs');
 
@@ -89,7 +89,9 @@ describe("legacy", function() {
 		it('returns the specified nodes', function() {
 			var xmlFilePath = path.resolve(__dirname, './fixture/ns-xml.xml');
 			var xmlContent = fs.readFileSync(xmlFilePath, {encoding: 'utf8'});
-			var dom = makeDom(xmlContent);
+			var doc = makeDoc(xmlContent);
+			DomUtils.expandDoc(doc);
+			var dom = doc.dom;
 			var nodes =	getElementsByTagNameNS('namespace1', 'node1', dom);
 			assert.equal(nodes.length, 1);
 

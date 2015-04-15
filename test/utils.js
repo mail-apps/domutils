@@ -8,3 +8,11 @@ exports.makeDom = function(markup) {
 	parser.done();
 	return handler.dom;
 };
+
+exports.makeDoc = function(markup) {
+	var handler = new DomHandler(),
+		parser = new htmlparser.Parser(handler);
+	parser.write(markup);
+	parser.done();
+	return handler.doc;
+};

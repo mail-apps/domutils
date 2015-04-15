@@ -1,5 +1,5 @@
-var makeDom = require("../utils").makeDom;
-var helpers = require("../..");
+var makeDom = require("./utils").makeDom;
+var helpers = require("../");
 var assert = require("assert");
 
 describe("helpers", function() {

@@ -1,5 +1,5 @@
-var makeDom = require("../utils").makeDom;
-var traversal = require("../..");
+var makeDom = require("./utils").makeDom;
+var traversal = require("..");
 var assert = require("assert");
 
 describe("traversal", function() {

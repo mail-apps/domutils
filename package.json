@@ -22,10 +22,12 @@
     "domelementtype": "1"
   },
   "devDependencies": {
-    "htmlparser2": "~3.3.0",
-    "domhandler": "2",
-    "jshint": "~2.3.0",
-    "mocha": "~1.15.1"
+    "domhandler": "https://github.com/liuxiong332/node-domhandler2.git#master",
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.10.0",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-mocha": "^2.0.1",
+    "htmlparser2": "~3.3.0"
   },
   "author": "Felix Boehm <me@feedic.com>",
   "license": "BSD-2-Clause",

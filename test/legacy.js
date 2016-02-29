@@ -170,8 +170,7 @@ describe('JSONDOMUtils test', function () {
 
 	it('get elements by DomUtils', function () {
 		var doc = getFixtureNsDoc();
-		var node
-		node = DomUtils.getChildTag(doc.dom, 'namespace1', 'node1');
+		var node = DomUtils.getChildTag(doc.dom, 'namespace1', 'node1');
 		assert.equal(node, null)
 
 		node = DomUtils.getChildTag(doc.dom, null, 'root');
@@ -195,4 +194,25 @@ describe('JSONDOMUtils test', function () {
 		// TODO: DomUtils.getHTML is invalid
 		// assert.equal(DomUtils.getHTML(doc), doc.xmlContent);
 	})
+
+	it('get elements by evaluate', function () {
+		var doc = getFixtureNsDoc();
+
+		var expr = '/*/ns1:node1/ns2:node2/ns2:node3/default:node4/default:node5[ns1:node6="Hello, Goodbye"]';
+		var resArray = DomUtils.splitExpr(expr);
+		assert.equal(resArray.length, 7);
+
+		var node5 = DomUtils.getElementsByTagNameNS('namespace-default', 'node5', doc.dom)[0];
+		assert.equal(DomUtils.getAttribute(node5, 'details'), 'get default namespace');
+
+		var node6 = DomUtils.getChildTag(node5, 'namespace1', 'node6');
+		var nodes = DomUtils.getElementsByContent('Hello, Goodbye', node6);
+		assert.equal(nodes.length, 1);
+
+		var nodes = DomUtils.evaluateWithResolve(doc, expr, function(prefix) {
+			var map = {ns1: 'namespace1', ns2: 'namespace2', 'default': 'namespace-default'};
+			return map[prefix];
+		});
+		assert.equal(nodes.length, 1);
+	});
 })

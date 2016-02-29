@@ -6,7 +6,8 @@ var DomUtils = module.exports;
 	require("./lib/manipulation"),
 	require("./lib/querying"),
 	require("./lib/legacy"),
-	require("./lib/helpers")
+	require("./lib/helpers"),
+	require("./lib/utils")
 ].forEach(function(ext){
 	Object.keys(ext).forEach(function(key){
 		DomUtils[key] = ext[key].bind(DomUtils);

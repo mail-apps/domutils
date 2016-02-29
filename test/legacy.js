@@ -1,3 +1,5 @@
+'use strict'
+
 var DomUtils = require("..");
 var fixture = require("./fixture");
 var assert = require("assert");
@@ -140,3 +142,57 @@ describe("legacy", function() {
 	});
 
 });
+
+function getFixtureNsDoc () {
+	var xmlFilePath = path.resolve(__dirname, './fixture/fixture-ns.xml');
+	var xmlContent = fs.readFileSync(xmlFilePath, {encoding: 'utf8'});
+	var doc = makeDoc(xmlContent);
+	DomUtils.expandDoc(doc);
+	doc.xmlContent = xmlContent
+	return doc;
+}
+
+describe('JSONDOMUtils test', function () {
+	it('Testing fixture-ns', function () {
+		var doc = getFixtureNsDoc();
+		let nodes = DomUtils.getElementsByTagNameNS(null, 'root', doc.dom)
+		assert.equal(nodes.length, 1)
+
+		nodes = DomUtils.getElementsByTagNameNS('namespace1', 'node1', doc.dom)
+		assert.equal(nodes.length, 1)
+
+		nodes = DomUtils.getElementsByTagNameNS('namespace2', 'node3', doc.dom)
+		assert.equal(nodes.length, 1)
+
+		nodes = DomUtils.getElementsByTagNameNS('namespace-default', 'node5', doc.dom)
+		assert.equal(nodes.length, 1)
+	})
+
+	it('get elements by DomUtils', function () {
+		var doc = getFixtureNsDoc();
+		var node
+		node = DomUtils.getChildTag(doc.dom, 'namespace1', 'node1');
+		assert.equal(node, null)
+
+		node = DomUtils.getChildTag(doc.dom, null, 'root');
+		assert.equal(DomUtils.getAttribute(node, 'details'), 'set ns1');
+
+		node = DomUtils.getChildTag(node, 'namespace1', 'node1');
+		assert.equal(DomUtils.getAttribute(node, 'details'), 'get ns1');
+
+		node = DomUtils.getChildTag(node, 'namespace2', 'node2');
+		node = DomUtils.getChildTag(node, 'namespace2', 'node3');
+		node = DomUtils.getChildTag(node, 'namespace-default', 'node4'); 
+		node = DomUtils.getChildTag(node, 'namespace-default', 'node5');
+		assert.equal(DomUtils.getAttribute(node, 'details'), 'get default namespace');
+
+		let finalNode = DomUtils.getChildTag(node, 'namespace1', 'node6');
+		assert.equal(DomUtils.getAttribute(finalNode, 'details'),'get ns1 again');
+
+		var str = DomUtils.getChildTagValue(node, 'namespace1', 'node6');
+		assert.equal(str, 'Hello, Goodbye');
+
+		// TODO: DomUtils.getHTML is invalid
+		// assert.equal(DomUtils.getHTML(doc), doc.xmlContent);
+	})
+})

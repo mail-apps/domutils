@@ -6,6 +6,7 @@
         <node4 xmlns="namespace-default" details="set default namespace">
           <node5 details="get default namespace">
             <ns1:node6 details="get ns1 again" >Hello, Goodbye</ns1:node6>
+            <ns1:node7 details="get ns7" >1</ns1:node6>
           </node5>
         </node4>
       </ns2:node3>

@@ -209,6 +209,9 @@ describe('JSONDOMUtils test', function () {
 		var nodes = DomUtils.getElementsByContent('Hello, Goodbye', node6);
 		assert.equal(nodes.length, 1);
 
+		var node7Value = DomUtils.getChildTagIntValue(node5, 'namespace1', 'node7')
+		assert.equal(node7Value, 1)
+
 		var nodes = DomUtils.evaluateWithResolve(doc, expr, function(prefix) {
 			var map = {ns1: 'namespace1', ns2: 'namespace2', 'default': 'namespace-default'};
 			return map[prefix];
